@@ -30,12 +30,14 @@ public class LoginfoController {
 
     @RequestMapping("/loadAllLoginfo")
     public DataGridViem loadAllLoginfo(LoginfoVo loginfoVo){
+        System.out.println(loginfoVo.getPaeg());
         IPage<Loginfo> page=new Page<>(loginfoVo.getPaeg(),loginfoVo.getLimit());
         QueryWrapper<Loginfo> queryWrapper=new QueryWrapper<>();
         queryWrapper.like(StringUtils.isNotBlank(loginfoVo.getLoginname()),"loginname",loginfoVo.getLoginname());
         queryWrapper.like(StringUtils.isNotBlank(loginfoVo.getLoginip()),"loginip",loginfoVo.getLoginip());
-        queryWrapper.ge(loginfoVo.getStartTime()!=null,"logintime",loginfoVo.getEndTime());
-        queryWrapper.like(loginfoVo.getEndTime()!=null,"logintime",loginfoVo.getEndTime());
+        queryWrapper.ge(loginfoVo.getStartTime()!=null,"logintime",loginfoVo.getStartTime());
+        queryWrapper.le(loginfoVo.getEndTime()!=null,"logintime",loginfoVo.getEndTime());
+        queryWrapper.orderByDesc("logintime");
         this.loginfoService.page(page,queryWrapper);
         return new DataGridViem(page.getTotal(),page.getRecords());
     }

@@ -23,4 +23,10 @@ public class SystemController {
     public String Main(){
         return "sys/index/deskManager";
     }
+
+//    跳转日志管理
+    @RequestMapping("/toLogInfoManager")
+    public String toLogInfoManager(){
+        return "sys/loginfo/loginfoManager";
+    }
 }
